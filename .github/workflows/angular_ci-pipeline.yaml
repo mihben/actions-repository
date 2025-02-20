@@ -1,0 +1,67 @@
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: List of projects
+        type: string
+        required: true
+
+jobs:
+  restore-dependencies:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Generate Cache Key
+        id: cache-key
+        run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Restore Dependencies
+        uses: mihben/actions-repository/.github/actions/node/restore-dependencies@feature/angular-actions
+        id: cache
+        with:
+          working-directory: src
+          cache_enabled: true
+          cache_key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+
+  build:
+    needs: [restore-dependencies]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ${{ fromJson(inputs.project) }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        uses: mihben/actions-repository/.github/actions/node/build@feature/angular-actions
+        with:
+          cache_enabled: true
+          cache_key: ${{ needs.restore-dependencies.outputs.cache-key }}
+
+          project: ${{ matrix.project }}
+
+          artict_publish: false
+
+  test:
+    needs: [restore-dependencies, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Test
+        uses: mihben/actions-repository/.github/actions/node/test@feature/angular-actions
+        with:
+          working-directory: src
+
+          cache_enabled: true
+          cache_key: ${{ needs.restore-dependencies.outputs.cache-key }}

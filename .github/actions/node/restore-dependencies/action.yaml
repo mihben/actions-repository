@@ -1,0 +1,37 @@
+name: node.restore-dependencies
+description: Restore npm dependecies
+
+inputs:
+  working-directory:
+    description: Directory where the restore should be run
+    default: src
+    type: string
+  package-lock:
+    description: Name of the package lock
+    default: package-lock.json
+    type: string
+  cache_enabled:
+    description: If true, the dependencies are cached according to package-lock.json otherwise no
+    default: true
+    type: boolean
+  cache_key:
+    type: string
+
+runs:
+  using: composite
+  steps:
+    - name: Cache Dependecies
+      uses: actions/cache@v4
+      id: cache
+      if: inputs.cache_enabled == 'true'
+      with:
+        key: ${{ inputs.cache_key }}
+        path: ${{ inputs.working-directory }}/node_modules
+
+    - name: Restore Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+
+    

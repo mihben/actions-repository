@@ -22,7 +22,7 @@ jobs:
         shell: bash
 
       - name: Restore Dependencies
-        uses: mihben/actions-repository/.github/actions/node/restore-dependencies@feature/angular-actions
+        uses: mihben/actions-repository/.github/actions/node/restore-dependencies@main
         id: cache
         with:
           working-directory: src
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
-        uses: mihben/actions-repository/.github/actions/node/build@feature/angular-actions
+        uses: mihben/actions-repository/.github/actions/node/build@main
         with:
           cache_enabled: true
           cache_key: ${{ needs.restore-dependencies.outputs.cache-key }}
@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test
-        uses: mihben/actions-repository/.github/actions/node/test@feature/angular-actions
+        uses: mihben/actions-repository/.github/actions/node/test@main
         with:
           working-directory: src
 

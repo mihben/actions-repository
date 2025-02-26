@@ -1,0 +1,35 @@
+name: dotnet.restore-dependencies
+description: Restore NuGet dependencies and cache them
+
+inputs:
+  working-directory:
+    description: Directory where the solution can be found
+    default: src
+  packages-directory:
+    description: Directory where the dependecies are restored
+
+outputs:
+  cache_key:
+    description: Generated cache-key
+    value: ${{ steps.generate-key.outputs.CACHE_KEY }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create Cache Key
+      id: generate-key
+      run: echo "CACHE_KEY=nuget_packages__${{ github.event.repository.name }}" >> "GITHUB_OUTPUT"
+      shell: bash
+
+    - name: Cache Dependecies
+      uses: actions/cache@v4
+      id: cache
+      if: inputs.cache_enabled == 'true'
+      with:
+        key: ${{ inputs.cache_key }}
+        path: ${{ inputs.packages-directory }}
+
+    - name: Restore Dependecies
+      run: dotnet restore --packages ${{ inputs.packages-directory }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

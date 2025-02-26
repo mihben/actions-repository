@@ -1,0 +1,19 @@
+name: dotnet.test
+description: Allows to test a built dotnet project and upload the result to TestSpace
+
+inputs:
+  artifact_name:
+    description: Name of the artifact that contains the build application
+
+runs:
+  using: composite
+  steps:
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact_name }}
+
+    - name: Test
+      run: dotnet test --configuration Release --no-build --no-restore --results-directory test-results --logger trx --collect:"XPlat Code Coverage;Format=cobertura"
+      shell: bash
+      working-directory: ${{ inputs.artifact_name }}

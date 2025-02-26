@@ -27,7 +27,7 @@ runs:
         path: ${{ inputs.packages-directory }}
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }} --artifacts-path ${{ github.workspace }}/artifacts
+      run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }} --output ${{ github.workspace }}/artifacts
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 

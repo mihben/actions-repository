@@ -24,10 +24,10 @@ runs:
         domain: ${{ github.repository_owner }}
 
     - name: Debug
-      run: ls -a
-      shell: |
+      run: |
         cd test-results
-        bash
+        ls -a
+      shell: bash
 
     - name: Publish Test Result
       run: testspace test-results/*.trx test-results/**/coverage.cobertura.xml

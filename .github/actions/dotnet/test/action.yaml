@@ -14,5 +14,5 @@ runs:
         name: ${{ inputs.artifact_name }}
 
     - name: Test
-      run: dotnet test --configuration Release --no-build --no-restore --results-directory test-results --logger trx --collect:"XPlat Code Coverage;Format=cobertura"
+      run: dotnet test *.Test.*.dll --results-directory test-results --logger trx --collect:"XPlat Code Coverage;Format=cobertura"
       shell: bash

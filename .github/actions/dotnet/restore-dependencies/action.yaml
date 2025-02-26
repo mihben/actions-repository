@@ -24,7 +24,6 @@ runs:
     - name: Cache Dependecies
       uses: actions/cache@v4
       id: cache
-      if: inputs.cache_enabled == 'true'
       with:
         key: ${{ steps.generate-key.outputs.CACHE_KEY }}
         path: ${{ inputs.packages-directory }}

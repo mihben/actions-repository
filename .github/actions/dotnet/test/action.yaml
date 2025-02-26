@@ -25,7 +25,9 @@ runs:
 
     - name: Debug
       run: ls -a
-      shell: bash
+      shell: |
+        cd test-results
+        bash
 
     - name: Publish Test Result
       run: testspace test-results/*.trx test-results/**/coverage.cobertura.xml

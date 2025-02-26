@@ -18,7 +18,7 @@ runs:
   steps:
     - name: Create Cache Key
       id: generate-key
-      run: echo "CACHE_KEY=nuget_packages__${{ github.event.repository.name }}" >> "GITHUB_OUTPUT"
+      run: echo "CACHE_KEY=nuget_packages__${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache Dependecies

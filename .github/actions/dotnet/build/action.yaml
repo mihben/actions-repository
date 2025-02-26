@@ -5,12 +5,22 @@ inputs:
   working-directory:
     description: Directory where the solution is found
     default: src
+  cache_key:
+    description: Key of the dependecy cache
+    required: true
   packages-directory:
     description: Directory where the dependent packages can be found
+    required: true
 
 runs:
   using: composite
   steps:
+    - name: Download Cache
+      uses: action/cache@v4
+      with:
+        key: ${{ inputs.cache_key }}
+        path: ${{ inputs.packages-directory }}
+
     - name: Build
       run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }}
       shell: bash

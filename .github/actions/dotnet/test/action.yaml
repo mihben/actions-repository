@@ -13,8 +13,12 @@ runs:
       with:
         name: ${{ inputs.artifact_name }}
 
+    - name: Install Coverlet CLI
+      run: dotnet tool install --global coverlet.console
+      shell: bash
+
     - name: Test
-      run: dotnet test *.Test.*.dll --results-directory test-results --logger trx --collect:"XPlat Code Coverage;Format=cobertura"
+      run:  coverlet *.Test.*.dll --target "dotnet"  --targetargs "test --results-directory test-results --logger trx" --output test-results --format cobertura
       shell: bash
       continue-on-error: true
 
@@ -23,12 +27,6 @@ runs:
       with:
         domain: ${{ github.repository_owner }}
 
-    - name: Debug
-      run: |
-        cd test-results
-        ls -a
-      shell: bash
-
     - name: Publish Test Result
-      run: testspace test-results/*.trx test-results/**/coverage.cobertura.xml
+      run: testspace test-results/*.trx test-results/**/*.xml
       shell: bash

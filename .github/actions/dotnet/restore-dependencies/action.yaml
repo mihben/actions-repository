@@ -26,7 +26,7 @@ runs:
       id: cache
       if: inputs.cache_enabled == 'true'
       with:
-        key: ${{ inputs.cache_key }}
+        key: ${{ steps.generate-key.outputs.CACHE_KEY }}
         path: ${{ inputs.packages-directory }}
 
     - name: Restore Dependecies

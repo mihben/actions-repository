@@ -20,7 +20,7 @@ runs:
     - name: Create Cache Key
       id: create-cache-key
       run: echo "CACHE_KEY=nuget_packages_${{ github.event.repository.id }}" >> "$GITHUB_OUTPUT"
-      shell: base
+      shell: bash
 
     - name: Cache Dependencies
       uses: actions/cache@v4

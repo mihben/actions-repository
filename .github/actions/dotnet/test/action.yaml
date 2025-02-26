@@ -18,7 +18,7 @@ runs:
       shell: bash
 
     - name: Test
-      run:  coverlet *.Test.*.dll --target "dotnet"  --targetargs "test *.Test.*.dll --results-directory test-results --logger trx" --format cobertura
+      run:  coverlet *.Test.*.dll --target "dotnet"  --targetargs "test *.Test.*.dll --results-directory test-results --logger trx" - output /coverage-results/ --format cobertura
       shell: bash
       continue-on-error: true
 
@@ -28,5 +28,5 @@ runs:
         domain: ${{ github.repository_owner }}
 
     - name: Publish Test Result
-      run: testspace test-results/*.trx test-results/**/*.xml
+      run: testspace test-results/*.trx coverage-results/*.xml
       shell: bash

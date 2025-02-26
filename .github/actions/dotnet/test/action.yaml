@@ -16,4 +16,3 @@ runs:
     - name: Test
       run: dotnet test --configuration Release --no-build --no-restore --results-directory test-results --logger trx --collect:"XPlat Code Coverage;Format=cobertura"
       shell: bash
-      working-directory: ${{ inputs.artifact_name }}

@@ -1,2 +1,17 @@
 name: dotnet.build
 description: Allows to build dotnet solution
+
+inputs:
+  working-directory:
+    description: Directory where the solution is found
+    default: src
+  packages-directory:
+    description: Directory where the dependent packages can be found
+
+runs:
+  using: composite
+  steps:
+    - name: Build
+      run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

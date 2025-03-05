@@ -25,7 +25,7 @@ runs:
     - name: Install TestSpace CLI
       uses: testspace-com/setup-testspace@v1
       with:
-        domain: ${{ github.repository_owner }}
+        domain: mihben
 
     - name: Publish Test Result
       run: testspace test-results/*.trx coverage-results/*.xml

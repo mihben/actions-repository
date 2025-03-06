@@ -29,7 +29,7 @@ runs:
         wget https://raw.githubusercontent.com/mihben/actions-repository/refs/heads/feature/dotnet-publish/dockerfiles/dotnet/wasm/Dockerfile
         wget https://raw.githubusercontent.com/mihben/actions-repository/refs/heads/feature/dotnet-publish/dockerfiles/dotnet/wasm/nginx.conf
         echo ${{ inputs.token }} | docker login ghcr.io -u mihben@gmail.com --password-stdin
-        docker buildx build --tag ghcr.io/${{ inputs.target_image }}:${{ inputs.target_version }}
+        docker buildx build --tag ghcr.io/${{ inputs.target_image }}:${{ inputs.target_version }} .
       working-directory: artifact/
       shell: bash
 

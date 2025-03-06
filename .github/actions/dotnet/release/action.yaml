@@ -6,7 +6,7 @@ runs:
   using: composite
   steps:
     - name: Release
-      uses: google-github-actions/release-please-action@v4
+      uses: googleapis/release-please-action@v4
       with:
         target-branch: develop
         release-type: simple

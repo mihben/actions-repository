@@ -21,9 +21,8 @@ runs:
   using: composite
   steps:
     - name: Publish Project
-      run: dotnet publish ${{ inputs.project }}.csproj --configuration Release --output artifact/
+      run: dotnet publish ${{ inputs.working-directory }}$/{{ inputs.project }}.csproj --configuration Release --output artifact/
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
 
     - name: Build Image
       run: |

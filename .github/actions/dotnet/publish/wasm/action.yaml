@@ -5,6 +5,9 @@ inputs:
   working-directory:
     description: Working directory where the project can be found
     required: true
+  project:
+    description: Name of the project (without extension)
+    required: true
   target_image:
     description: Name of the target image
     required: true

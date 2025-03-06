@@ -1,0 +1,15 @@
+name: generic.get-version
+description: Getting target version based on git tag
+
+outputs:
+  version:
+    description: Calculated version
+    value: ${{ steps.version.outputs.VERSION }}
+
+runs:
+  using: composite
+  steps:
+    - name: Calculate Version
+      id: version
+      run: echo "VERSION=$(echo ${{ github.ref_name }} | cut -c 2-)" >> $GITHUB_OUTPUT
+      shell: bash

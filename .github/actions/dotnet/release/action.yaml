@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=
+name: dotnet.release
+description: Allows to create releases
+
+runs:
+  using: composite
+  steps:
+    - name: Release
+      uses: google-github-actions/release-please-action@v4
+      with:
+        target-branch: develop
+        release-type: simple

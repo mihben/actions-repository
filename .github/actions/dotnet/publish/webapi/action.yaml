@@ -21,8 +21,9 @@ runs:
   using: composite
   steps:
     - name: Publish Project
-      env: APPVERSION=${{ inputs.target_version }}
-      run: dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/
+      run: |
+        echo "APPVERSION=${{ inputs.target_version }}" >> $GITHUB_ENV
+        dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/
       shell: bash
 
     - name: Build Image

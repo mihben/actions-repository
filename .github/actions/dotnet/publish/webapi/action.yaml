@@ -21,7 +21,7 @@ runs:
   using: composite
   steps:
     - name: Publish Project
-      run: dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/ /p:Version=${{ inputs.target_version }}
+      run: dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/ /p:InformationalVersion=${{ inputs.target_version }}
       shell: bash
 
     - name: Build Image

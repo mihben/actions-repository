@@ -21,7 +21,8 @@ runs:
   using: composite
   steps:
     - name: Publish Project
-      run: dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/ -p:CompressionEnabled=true /p:InformationalVersion=${{ inputs.target_version }}
+      env: APPVERSION=${{ inputs.target_version }}
+      run: dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/ -p:CompressionEnabled=true
       shell: bash
 
     - name: Build Image

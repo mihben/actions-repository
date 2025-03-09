@@ -1,0 +1,40 @@
+name: dotnet.publish.webapi
+description: Allows to publish .NET WebApi as docker image
+
+inputs:
+  working-directory:
+    description: Working directory where the project can be found
+    required: true
+  project:
+    description: Name of the project (without extension)
+    required: true
+  target_image:
+    description: Name of the target image
+    required: true
+  target_version:
+    description: Version of the image
+    required: true
+  token:
+    description: Token for publishing created image
+
+runs:
+  using: composite
+  steps:
+    - name: Publish Project
+      run: |
+        echo "APPVERSION=${{ inputs.target_version }}" >> $GITHUB_ENV
+        dotnet publish ${{ inputs.working-directory }}/${{ inputs.project }}.csproj --configuration Release --output artifact/
+      shell: bash
+
+    - name: Build Image
+      run: |
+        wget https://raw.githubusercontent.com/mihben/actions-repository/refs/heads/feature/dotnet-publish/dockerfiles/dotnet/webapi/Dockerfile
+        sed -i 's/#WEBAPI_DLL#/${{ inputs.project }}.dll/g' Dockerfile
+        echo ${{ inputs.token }} | docker login ghcr.io -u mihben@gmail.com --password-stdin
+        docker buildx build --tag ghcr.io/${{ inputs.target_image }}:${{ inputs.target_version }} .
+      working-directory: artifact/
+      shell: bash
+
+    - name: Publish Image
+      run: docker push ghcr.io/${{ inputs.target_image }}:${{ inputs.target_version }}
+      shell: bash

@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=
+name: dotnet.release
+description: Allows to create releases
+
+inputs:
+  token:
+    description: Token for creating release and pull request
+    required: true
+  branch:
+    description: Target branch
+    default: develop
+
+runs:
+  using: composite
+  steps:
+    - name: Release
+      uses: googleapis/release-please-action@v4
+      with:
+        token: ${{ inputs.token }}
+        target-branch: ${{ inputs.branch }}
+        release-type: simple

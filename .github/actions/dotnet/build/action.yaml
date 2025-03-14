@@ -42,3 +42,4 @@ runs:
         name: ${{ steps.create-artifact-name.outputs.ARTIFACT_NAME }}
         path: ${{ github.workspace }}/artifacts
         retention-days: 1
+        include-hidden-files: true

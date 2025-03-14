@@ -20,7 +20,7 @@ runs:
         name: ${{ inputs.artifact_name }}
 
     - name: Install Browser
-      run: pwsh playwright.ps1 install ${{ input.target_browser }}
+      run: pwsh playwright.ps1 install ${{ inputs.target_browser }}
       shell: bash
 
     - name: Test

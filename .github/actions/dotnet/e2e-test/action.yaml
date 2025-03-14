@@ -5,7 +5,7 @@ inputs:
   artifact_name:
     description: Name of the artifact that contains the build application
   target_browser:
-    desccription: Target browser. Can be: chromium, firefox and webkit
+    desccription: Target browser (Possible Values: chromium, firefox and webkit)
     type: string
     required: true
   url:

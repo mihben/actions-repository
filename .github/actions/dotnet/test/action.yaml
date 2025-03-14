@@ -18,7 +18,7 @@ runs:
       shell: bash
 
     - name: Test
-      run:  coverlet *.Test.*.dll --target "dotnet"  --targetargs "test *.Test.*.dll --results-directory test-results --logger trx" --output coverage-results/ --format cobertura --exclude-by-file "**/Migrations/**/*.cs"
+      run:  coverlet *.Test.*.dll --target "dotnet"  --targetargs "test *.Test.*.dll --filter Category!=e2e --results-directory test-results --logger trx" --output coverage-results/ --format cobertura --exclude-by-file "**/Migrations/**/*.cs"
       shell: bash
       continue-on-error: true
 

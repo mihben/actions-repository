@@ -19,6 +19,10 @@ runs:
       with:
         name: ${{ inputs.artifact_name }}
 
+    - name: Install Browser
+      run: ls -a
+      shell: bash
+
     - name: Test
       env:
         TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}

@@ -20,7 +20,7 @@ runs:
         name: ${{ inputs.artifact_name }}
 
     - name: Test
-      environment:
+      env:
         TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}
         TEST_RUN_URL: ${{ inputs.url }}
       run:  dotnet test *.Test.E2E.dll --results-directory test-results --logger trx

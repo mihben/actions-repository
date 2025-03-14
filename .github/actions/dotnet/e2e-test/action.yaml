@@ -1,0 +1,39 @@
+name: dotnet.test.e2e
+description: Allows to run e2e a built dotnet project and upload the result to TestSpace
+
+inputs:
+  artifact_name:
+    description: Name of the artifact that contains the build application
+  target_browser:
+    desccription: Target browser. Can be: chromium, firefox and webkit
+    type: string
+    required: true
+  url:
+    description: URL of the application to be tested
+    type: string
+    required: true
+
+runs:
+  using: composite
+  environment:
+    TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}
+    TEST_RUN_URL: ${{ inputs.url }}
+  steps:
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact_name }}
+
+    - name: Test
+      run:  dotnet test *.Test.E2E.dll --results-directory test-results --logger trx
+      shell: bash
+      continue-on-error: true
+
+    - name: Install TestSpace CLI
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: mihben
+
+    - name: Publish Test Result
+      run: testspace test-results/*.trx
+      shell: bash

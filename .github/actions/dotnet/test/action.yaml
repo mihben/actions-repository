@@ -28,5 +28,5 @@ runs:
         domain: mihben
 
     - name: Publish Test Result
-      run: testspace test-results/*.trx coverage-results/**/*.xml
+      run: testspace test-results/*.trx test-results/**/*.xml
       shell: bash

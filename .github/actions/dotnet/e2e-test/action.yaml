@@ -28,7 +28,7 @@ runs:
       if: ${{ inputs.debug }} == 'true'
 
     - name: Install Browser
-      run: pwsh playwright.ps1 install ${{ inputs.target_browser }}
+      run: pwsh -f playwright.ps1 install ${{ inputs.target_browser }}
       shell: bash
 
     - name: Test

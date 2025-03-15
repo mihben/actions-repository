@@ -12,7 +12,7 @@ inputs:
     required: true
   debug:
     description: Turn on debug messages
-    default: 'false'
+    default: false
 
 runs:
   using: composite
@@ -26,10 +26,6 @@ runs:
       run: ls -a
       shell: bash
       if: ${{ inputs.debug }} == 'true'
-
-    - name: Install Browser
-      run: playwright.ps1 install ${{ inputs.target_browser }}
-      shell: pwsh
 
     - name: Test
       env:

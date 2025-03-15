@@ -11,6 +11,9 @@ inputs:
   packages-directory:
     description: Directory where the dependent packages can be found
     required: true
+  debug:
+    description: Turn on debug messages
+    default: false
 
 outputs:
   artifact_name:

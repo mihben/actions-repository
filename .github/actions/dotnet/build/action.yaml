@@ -49,3 +49,4 @@ runs:
         path: ${{ github.workspace }}/artifacts
         retention-days: 1
         include-hidden-files: true
+        overwrite: true

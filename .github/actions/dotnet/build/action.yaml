@@ -26,6 +26,12 @@ runs:
         key: ${{ inputs.cache_key }}
         path: ${{ inputs.packages-directory }}
 
+    - name: Dump Downloaded Cache
+      run: ls -a
+      shell: bash
+      if: ${{ inputs.debug }} == 'true'
+      working-directory: ${{ inputs.packages-directory }}
+
     - name: Build
       run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }} --output ${{ github.workspace }}/artifacts
       shell: bash

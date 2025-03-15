@@ -21,23 +21,27 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.artifact_name }}
+      working-directory: artifacts
 
     - name: Dump Artifactory Directory
       run: ls -a
       shell: bash
       if: ${{ inputs.debug }} == 'true'
+      working-directory: artifacts
 
     - name: Install Browser
       run: pwsh playwright.ps1 install ${{ inputs.target_browser }}
       shell: bash
+      working-directory: artifacts
 
     - name: Test
       env:
         TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}
         TEST_RUN_URL: ${{ inputs.url }}
-      run: dotnet test *.Test.E2E.dll --results-directory test-results --logger trx
+      run: dotnet test *.Test.E2E.dll --results-directory ${{ github.workspace }}/test-results --logger trx
       shell: bash
       continue-on-error: true
+      working-directory: artifacts
 
     - name: Install TestSpace CLI
       uses: testspace-com/setup-testspace@v1

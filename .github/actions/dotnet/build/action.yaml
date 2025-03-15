@@ -11,6 +11,9 @@ inputs:
   packages-directory:
     description: Directory where the dependent packages can be found
     required: true
+  debug:
+    description: Turn on debug messages
+    default: 'false'
 
 outputs:
   artifact_name:
@@ -26,10 +29,22 @@ runs:
         key: ${{ inputs.cache_key }}
         path: ${{ inputs.packages-directory }}
 
+    - name: Dump Downloaded Cache
+      run: ls -a
+      shell: bash
+      if: ${{ inputs.debug }} == 'true'
+      working-directory: ${{ inputs.working-directory }}
+
     - name: Build
       run: dotnet build --no-restore --configuration Release --packages ${{ inputs.packages-directory }} --output ${{ github.workspace }}/artifacts
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+
+    - name: Dump Artifact Directory
+      run: ls -a
+      shell: bash
+      if: ${{ inputs.debug }} == 'true'
+      working-directory: ${{ github.workspace }}/artifacts
 
     - name: Create Artifact Name
       id: create-artifact-name

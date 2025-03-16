@@ -1,0 +1,54 @@
+name: note.test.e2e
+description: Allows to run e2e test in node project and upload the result to TestSpace
+
+inputs:
+  target_browser:
+    description: Target browser (chromium, firefox and webkit)
+    required: true
+  url:
+    description: URL of the application to be tested
+    required: true
+  working-directory:
+    description: Working directory
+    required: true
+
+  cache_enabled:
+    description: Enable the cache
+    default: true
+  cache_key:
+    description: Cache key to be used
+
+runs:
+  using: composite
+  steps:
+    - name: Download Dependecies
+      uses: actions/cache@v4
+      id: cache
+      if: ${{ inputs.cache_enabled }} == 'true'
+      with:
+        path: ${{ inputs.working-directory }}/node_modules
+        key: ${{ inputs.cache_key }}
+
+    - name: Install ${{ inputs.target_browser }}
+      run: npx playwright install ${{ inputs.target_browser }}
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+
+    - name: Test
+      env:
+        TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}
+        TEST_RUN_URL: ${{ inputs.url }}
+      run: npm run test -- --format junit > ${{ inputs.target_browser }}.xml
+      shell: bash
+      continue-on-error: true
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Install TestSpace CLI
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: mihben
+
+    - name: Publish Test Result
+      run: testspace ${{ inputs.target_browser }}.xml
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

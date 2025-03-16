@@ -29,7 +29,7 @@ runs:
       env:
         TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}
         TEST_RUN_URL: ${{ inputs.url }}
-      run: npm run test -- --format junit > test-results/result.xml
+      run: npm run test -- --format junit > result.xml
       shell: bash
       continue-on-error: true
       working-directory: ${{ inputs.working_directory }}
@@ -40,6 +40,6 @@ runs:
         domain: mihben
 
     - name: Publish Test Result
-      run: testspace test-results/*.xml
+      run: testspace result.xml
       shell: bash
       working-directory: ${{ inputs.working_directory }}

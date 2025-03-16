@@ -15,6 +15,16 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Restore Dependencies
+      run: npm ci
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+
+    - name: Install ${{ inputs.target_browser }}
+      run: npx playwright install ${{ inputs.target_browser }}
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+
     - name: Test
       env:
         TEST_RUN_TARGET_BROWSER: ${{ inputs.target_browser }}

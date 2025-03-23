@@ -9,7 +9,7 @@ inputs:
 
   cache_enabled:
     description: If true, the dependencies are cached according to package-lock.json otherwise no
-    default: "true"
+    default: 'true'
     type: boolean
   cache_key:
     description: Key of the cache
@@ -49,7 +49,7 @@ runs:
     - name: Install TestSpace CLI
       uses: testspace-com/setup-testspace@v1
       with:
-        domain: ${{ github.repository_owner }}
+        domain: mihben
 
     - name: Publish Test Results
       run: testspace test_results/tests.unit.xml coverage/clover.xml

@@ -20,6 +20,6 @@ runs:
       working-directory: ${{ inputs.working-directory }}
 
     - name: Publish packages
-      run: dotnet nuget push *.npkg --api-key ${{ inputs.api-key }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push *.nupkg --api-key ${{ inputs.api-key }} --source https://api.nuget.org/v3/index.json
       shell: bash
       working-directory: ${{ github.workspace }}/artifacts

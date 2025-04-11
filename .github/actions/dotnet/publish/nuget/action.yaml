@@ -1,0 +1,25 @@
+name: dotnet.publish.nuget
+description: Allows to publish NuGet packages
+
+inputs:
+  working-directory:
+    description: Working directory where the project can be found
+    required: true
+  target_version:
+    description: Version of the image
+    required: true
+  api-key:
+    description: Api Key
+
+runs:
+  using: composite
+  steps:
+    - name: Pack Projects
+      run: dotnet pack --output ${{ github.workspace }}/artifacts --configuration Release -p:PackageVersion=${{ inputs.target-version }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Publish packages
+      run: dotnet nuget push *.npkg --api-key ${{ inputs.api-key }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/artifacts

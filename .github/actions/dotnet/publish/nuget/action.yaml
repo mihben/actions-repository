@@ -15,7 +15,7 @@ runs:
   using: composite
   steps:
     - name: Pack Projects
-      run: dotnet pack --output ${{ github.workspace }}/artifacts --configuration Release -p:PackageVersion=${{ inputs.target-version }}
+      run: dotnet pack --output ${{ github.workspace }}/artifacts --configuration Release -p:PackageVersion=${{ inputs.target_version }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
